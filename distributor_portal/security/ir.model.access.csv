@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_qualified_report_wizard,qualified_report_wizard_qualified_report_wizard,model_qualified_report_wizard,base.group_user,1,1,1,1
+access_city_city_city_city,qualified_qualified_city_city,model_city_city,base.group_user,1,1,1,1
+access_vendor_code,vendor_code,model_vendor_code,base.group_user,1,1,1,1
+
+
+

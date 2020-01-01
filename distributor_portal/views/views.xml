@@ -1,0 +1,510 @@
+<odoo>
+
+
+    <record id="base.res_partner_rule_private_employee" model="ir.rule">
+        <field name="name">res.partner.rule.private.employee</field>
+        <field name="active" eval="False"/>
+    </record>
+
+    <record id="base.res_partner_rule_private_group" model="ir.rule">
+        <field name="name">res.partner.rule.private.group</field>
+        <field name="active" eval="False"/>
+    </record>
+
+    <!-- actions opening views on models -->
+    <record id="inventory_report_view" model="ir.ui.view">
+        <field name="name">CRM Report</field>
+        <field name="model">inventory.report.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+
+                    <group col="2" colspan="4">
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="per_pm"/>
+                        <field name="sales_person" />
+                        <field name="city"/>
+                    </group>
+                    <group>
+
+                        <field name="pm"/>
+                        <field name="sale"/>
+                        <field name="per_city"/>
+                    </group>
+                    <footer>
+                        <button name="get_report" string="Print Report" type="object" default_focus="1" class="oe_highlight" />
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="create_city_form_report_view" model="ir.ui.view">
+        <field name="name">City</field>
+        <field name="model">city.city</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Inherit Form View to Modify it -->
+    <record id="res_users_form_inherit" model="ir.ui.view">
+        <field name="name">res.users</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="priority">15</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='action_id']" position="after">
+                <field name="vendor_code_id" widget="many2many_tags"/>
+                <field name="city_id" widget="many2many_tags"/>
+                 <field name="departments" />
+            </xpath>
+        </field>
+    </record>
+
+    <!--<record id="crm_lead_opportunities_employee_user" model="ir.actions.act_window">-->
+          <!--<field name="name">Employee User</field>-->
+          <!--<field name="type">ir.actions.act_window</field>-->
+          <!--<field name="res_model">crm.lead</field>-->
+          <!--&lt;!&ndash;<field name="context">{'default_is_omra':'True','default_is_religion':'True'}</field>&ndash;&gt;-->
+          <!--<field name="domain">[('is_user_employee','=',True)]</field>-->
+          <!--<field name="view_ids"-->
+                   <!--eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('crm.crm_lead_view_tree_activity')}),-->
+                          <!--(0, 0, {'view_mode': 'form', 'view_id': ref('crm.crm_case_form_view_oppor')}),-->
+                          <!--(0, 0, {'view_mode': 'kanban'}), (0, 0, {'view_mode': 'calendar'}),-->
+                          <!--(0, 0, {'view_mode': 'pivot'}), (0, 0, {'view_mode': 'graph'})]"/>-->
+          <!--<field name="view_mode">kanban,tree,graph,pivot,form,calendar,activity</field>-->
+    <!--</record>-->
+    <!--<record id="crm_lead_opportunities_employee_user2" model="ir.actions.act_window">-->
+          <!--<field name="name">Employee User2222222222</field>-->
+          <!--<field name="type">ir.actions.act_window</field>-->
+          <!--<field name="res_model">crm.lead</field>-->
+          <!--&lt;!&ndash;<field name="context">{'default_is_omra':'True','default_is_religion':'True'}</field>&ndash;&gt;-->
+          <!--<field name="domain">[('is_user_employee','=',True)]</field>-->
+        <!--&lt;!&ndash;<field name="view_ids"&ndash;&gt;-->
+                   <!--&lt;!&ndash;eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('crm.crm_lead_view_tree_activity')}),&ndash;&gt;-->
+                          <!--&lt;!&ndash;(0, 0, {'view_mode': 'form', 'view_id': ref('crm.crm_case_form_view_oppor')}),&ndash;&gt;-->
+                          <!--&lt;!&ndash;(0, 0, {'view_mode': 'kanban'}), (0, 0, {'view_mode': 'calendar'}),&ndash;&gt;-->
+                          <!--&lt;!&ndash;(0, 0, {'view_mode': 'pivot'}), (0, 0, {'view_mode': 'graph'})]"/>&ndash;&gt;-->
+
+          <!--&lt;!&ndash;<field name="view_mode">kanban,tree,graph,pivot,form,calendar,activity</field>&ndash;&gt;-->
+    <!--</record>-->
+    <!--<menuitem id="crm_leads_employee_user_menu_action2"-->
+              <!--name="Employee User22222222"-->
+              <!--parent="crm.crm_menu_sales"-->
+              <!--action="crm_lead_opportunities_employee_user2" />-->
+
+    <!--<menuitem id="crm_leads_employee_user_menu_action"-->
+              <!--name="Employee User"-->
+              <!--parent="crm.crm_menu_sales"-->
+              <!--action="crm_lead_opportunities_employee_user" />-->
+
+
+    <record id="vendor_code_form_view" model="ir.ui.view">
+        <field name="name">Vendor Code</field>
+        <field name="model">vendor.code</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                        <group>
+                            <field name="vendor_state" groups="distributor_portal.position_security_group"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="vendor_code_tree_view" model="ir.ui.view">
+        <field name="name">vendor code</field>
+        <field name="model">vendor.code</field>
+        <field name="arch" type="xml">
+            <tree string="vendor code">
+                <field name="name"/>
+                <field name="description"/>
+                <field name="vendor_state" groups="distributor_portal.position_security_group"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="city_form_action" model="ir.actions.act_window">
+        <field name="name">Region</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">city.city</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="city_menu_action" name="Region" parent="crm.crm_menu_sales" action="city_form_action" />
+
+    <record id="vendor_code_form_action" model="ir.actions.act_window">
+        <field name="name">Vendor code</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">vendor.code</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="vendor_code_menu_action" name="Vendor Code" parent="crm.crm_menu_sales" action="vendor_code_form_action" />
+
+    <record id="action_foster_wizard" model="ir.actions.act_window">
+        <field name="name">Generate CRM Report</field>
+        <field name="res_model">inventory.report.wizard</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <menuitem name="CRM Report" parent="crm.crm_menu_report" action="action_foster_wizard" id="menu_foster_summary"/>
+
+
+    <record id="inventory_report_view_qualified" model="ir.ui.view">
+        <field name="name">Qualified Prospect Report</field>
+        <field name="model">qualified.report.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col="2" colspan="2">
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <footer>
+                        <button name="get_report" string="Print Report" type="object" default_focus="1" class="oe_highlight" />
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_foster_wizard_qualified" model="ir.actions.act_window">
+        <field name="name">Generate Qualified Prospects Report</field>
+        <field name="res_model">qualified.report.wizard</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <menuitem name="Qualified Prospects" parent="crm.crm_menu_report" action="action_foster_wizard_qualified" id="prospect_menu_foster_summary"/>
+
+
+    <record model="report.paperformat" id="paperformat_attendance_recap_report">
+        <field name="name">paperformat.inventory.recap.report</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">297</field>
+        <field name="page_width">210</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">35</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">34</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <report id="recap_report"
+            model="inventory.report.wizard"
+            string="CRM Report"
+            report_type="qweb-pdf"
+            name="distributor_portal.inventory_recap_report_view"
+            paperformat="paperformat_attendance_recap_report"
+            menu="False"/>
+
+    <template id="inventory_recap_report_view">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+
+                <div align="Center">
+                    <font face="arial"><h4>CRM Report</h4></font>
+                    <div>
+                        <strong>From</strong>:
+                        <t t-esc="date_from"/>
+                        <strong>To</strong>:
+                        <t t-esc="date_to"/>
+                    </div>
+                </div>
+                <style>
+                    table {
+                    font-family: arial;
+                    border-collapse: collapse;
+                    width: 100%;
+                    margin: auto;
+                    }
+                    th {
+                    border: 1px solid black;
+                    text-align: left;
+                    padding: 8px;
+                    }
+                    td{
+                    border: 1px solid black;
+                    text-align: right;
+                    padding: 8px;
+                    }
+
+                    .img-responsive, .thumbnail &gt; img, .thumbnail a &gt; img, .carousel-inner &gt; .item &gt; img, .carousel-inner &gt; .item &gt; a &gt; img {
+                    width :200px !important;
+                    }
+
+                </style>
+                <table>
+                    <thead>
+                        <tr align="center">
+                            <th rowspan="1"  class="text-center" style="width: 15%">Sr#</th>
+                            <th rowspan="1"  class="text-center" style="width: 15%">Product Manager</th>
+                            <th rowspan="1"  class="text-center" style="width: 15%">Salesperson</th>
+                            <th rowspan="1"  class="text-center" style="width: 15%">Opportunities</th>
+                            <th rowspan="2"  class="text-center" style="width: 15%">Department</th>
+                            <th rowspan="1"  class="text-center" style="width: 15%">City</th>
+                            <th rowspan="1"  class="text-center" style="width: 15%">Lost%</th>
+                            <th rowspan="1"  class="text-center" style="width: 15%">Won%</th>
+                        </tr>
+                    </thead>
+                    <t t-set="i" t-value="1"/>
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-foreach="locs" t-as="loc">
+                            <tr>
+                                <td class="text-center"> <span t-esc="i"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-esc="doc['manager']"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-esc="doc['user_id']"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-esc="doc['oppurtunity_name']"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-esc="doc['department']"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-esc="doc['city']"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-esc="loc['lost']"  t-options='{"widget": "float", "precision": 2}'/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-esc="loc['won']"  t-options='{"widget": "float", "precision": 2}'/>
+                                </td>
+                                <t t-set="i" t-value="i+1"/>
+                            </tr>
+                        </t>
+                    </t>
+                </table>
+            </t>
+        </t>
+    </template>
+
+
+
+    <report id="qualified_recap_report"
+            model="qualified.report.wizard"
+            string="Prospect Report"
+            report_type="qweb-pdf"
+            name="distributor_portal.qualified_recap_report_view"
+            paperformat="paperformat_attendance_recap_report"
+            menu="False"/>
+
+    <template id="qualified_recap_report_view">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+
+                <div align="Center">
+                    <font face="arial"><h4>Qualified Prospect Report</h4></font>
+                    <div>
+                        <strong>From</strong>:
+                        <t t-esc="date_from"/>
+                        <strong>To</strong>:
+                        <t t-esc="date_to"/>
+                    </div>
+                </div>
+                <style>
+                    table {
+                    font-family: arial;
+                    border-collapse: collapse;
+                    width: 100%;
+                    margin: auto;
+                    }
+                    th {
+                    border: 1px solid black;
+                    text-align: left;
+                    padding: 8px;
+                    }
+                    td{
+                    border: 1px solid black;
+                    text-align: right;
+                    padding: 8px;
+                    }
+
+                    .img-responsive, .thumbnail &gt; img, .thumbnail a &gt; img, .carousel-inner &gt; .item &gt; img, .carousel-inner &gt; .item &gt; a &gt; img {
+                    width :200px !important;
+                    }
+
+                </style>
+                <t t-foreach="locs" t-as="loc">
+
+                </t>
+                <table>
+                    <thead>
+                        <tr align="center">
+                            <th rowspan="2"  class="text-center" style="width: 15%">Sr#</th>
+                            <th rowspan="1"  class="text-center" style="width: 15%">Product Manager</th>
+                            <th rowspan="2"  class="text-center" style="width: 15%">Salesperson</th>
+                            <th rowspan="2"  class="text-center" style="width: 15%">Department</th>
+                            <th rowspan="2"  class="text-center" style="width: 15%">City</th>
+                            <th rowspan="2"  class="text-center" style="width: 15%">Qualified Prospects</th>
+                        </tr>
+                    </thead>
+                    <t t-set="i" t-value="1"/>
+                    <t t-foreach="docs" t-as="doc">
+                        <tr>
+                            <td class="text-center"> <span t-esc="i"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="doc['manager']"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="doc['user_id']"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="doc['department']"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="doc['city']"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="doc['qualified']"/>
+                            </td>
+                            <t t-set="i" t-value="i+1"/>
+                        </tr>
+                    </t>
+                </table>
+
+            </t>
+        </t>
+    </template>
+
+
+    <record id="crm_lead_view_form_inherit" model="ir.ui.view">
+        <field name="name">crm.lead.form.inherit</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field eval="18" name="priority"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_set_won_rainbowman']" position="before">
+                <button name="action_confirm" states="draft" string="Confirm" type="object" class="oe_highlight"/>
+            </xpath>
+
+            <xpath expr="//field[@name='user_id']" position="before">
+                   <field name="state" invisible="1"/>
+                <!--<field name="is_user_employee" />-->
+                <field name="manager" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                <field name="vendor_code_id" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                <field name="department" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                <field name="city_id" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+            </xpath>
+
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', 'in', 'confirm')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', 'in', 'confirm')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', 'in', 'confirm')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='probability']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', 'in', 'confirm')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='planned_revenue']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', 'in', 'confirm')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='email_from']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', 'in', 'confirm')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_address_phone']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', 'in', 'confirm')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='team_id']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', 'in', 'confirm')]}</attribute>
+            </xpath>
+                <xpath expr="//field[@name='state']"  position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+
+
+            <xpath expr="//page[@name='lead']" position="replace">
+                <page name="lead" string="Followup">
+                    <group>
+                        <group string="Initial Contact Information">
+                            <field name="partner_name" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                            <label for="street" string="Address"/>
+                            <div class="o_address_format">
+                                <field name="street" placeholder="Street..." class="o_address_street" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                                <field name="street2" placeholder="Street 2..." class="o_address_street" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                                <field name="city" placeholder="City" class="o_address_city" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                                <field name="state_id" class="o_address_state" placeholder="State" options="{&quot;no_open&quot;: True}" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                                <field name="zip" placeholder="ZIP" class="o_address_zip" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                                <field name="country_id" placeholder="Country" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                            </div>
+                            <field name="website" widget="url" placeholder="e.g. https://www.odoo.com" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                        </group>
+
+                        <group class="mt48">
+                            <label for="contact_name"/>
+                            <div class="o_row">
+                                <field name="contact_name" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                                <field name="title" placeholder="Title" domain="[]" options="{&quot;no_open&quot;: True}" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                            </div>
+                            <field name="function" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                            <field name="mobile" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                        </group>
+                        <group string="Marketing">
+                            <field name="campaign_id" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                            <field name="medium_id" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                            <field name="source_id" attrs="{'readonly': [('state', '=', 'confirm')]}"/>
+                        </group>
+                        <group string="Misc" name="Misc">
+                            <field name="day_open" groups="base.group_no_one"/>
+                            <field name="day_close" groups="base.group_no_one"/>
+                            <field name="referred"/>
+                            <field name="type" invisible="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//group[@name='Misc']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', 'in', 'confirm')]}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+
+
+      <record id="hr_employee_view_form_inherit" model="ir.ui.view">
+        <field name="name">Hr Employee</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field eval="18" name="priority"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='department_id']" position="before">
+                <field name="city"/>
+            </xpath>
+        </field>
+      </record>
+</odoo>
